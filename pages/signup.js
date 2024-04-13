@@ -12,23 +12,6 @@ export default function Signup() {
 
     const submitForm = async (e) => {
         e.preventDefault(); // prevent the browser from automatically submitting the form
-
-        /*
-        const res = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ user, pwd }),
-        });
-        
-        const data = await res.json();
-
-        if(res.ok){
-            localStorage.setItem('token', data.token); // Store token in local storage
-            router.push('/');
-        }else{
-            setDisplay(data.error);
-        }
-        */
     }
 
     return (

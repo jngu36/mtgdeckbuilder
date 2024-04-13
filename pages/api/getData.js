@@ -1,18 +1,20 @@
-// pages/api/getData.js
-
-import { MongoClient } from 'mongodb';
+import User from "@/Model/User";
+import connectDb from "../lib/connectDB";
 
 export default async function handler(req, res) {
-    
-    
+    try{
+        console.log('CONNECTING TO MONGO');
+        await connectDb();
+        console.log('CONNECTED TO MONGO');
 
-    if (user === 'admin' && pwd === 'test') {
-        // Create JWT token
-        const token = jwt.sign({ user }, 'secret', { expiresIn: '1h' });
-        
-        // Return token as response
+        console.log('TRYING TO GET SOMETHING');
+        const data = await User.find();
+        console.log('FINALLY?');
+
         res.status(200).json({ data });
-    } else {
-        res.status(401).json({ error: 'Invalid credentials lol' });
+
+    }catch(error){
+        console.log(error);
+        res.status(401).json({ error: 'something went bad'});
     }
 }

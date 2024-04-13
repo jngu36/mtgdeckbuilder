@@ -1,45 +1,27 @@
 import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
-import mongoose from "mongoose";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 
 export default function Test() {
-    const [msg, setMsg] = useState("Empty");
-    const uri = process.env.MONGO;
+    const [msg, setMsg] = useState("");
 
-    if (!uri) {
-        console.log("naw");
-    } else {
-        console.log("okay");
+    const handled = async (e) => {
+        console.log("whoa 1")
+        const res = await fetch('./api/getData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((res)=>res.json())
+        .then((data)=>{
+            f
+        });
     }
-
-    const cached = global.mongoose;
-
-    if (!cached) {
-        cached = global.mongoose = { conn: null, promise: null };
-    }
-
-    async function connectDB() {
-        if (cached.conn) {
-            return cached.conn;
-        }
-
-        if (!cached.promise) {
-            const opts = {
-                bufferCommands: false,
-            };
-
-            cached.promise = mongoose.connect(DATABASE_URL, opts).then((mongoose) => {
-                return mongoose;
-            });
-        }
-        cached.conn = await cached.promise;
-        return cached.conn;
-    }
-
     return (
         <>
             <div>
-
+                <button onClick={handled}>Whoa</button>
                 <p>{msg}</p>
             </div>
         </>
