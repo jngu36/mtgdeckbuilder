@@ -7,7 +7,7 @@ export default function Home() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      setName(jwt.decode(token).user);
+      setName(jwt.decode(token).user.username);
     }
   }, []);
 

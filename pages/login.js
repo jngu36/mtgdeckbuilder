@@ -12,7 +12,6 @@ export default function Login() {
 
     const submitForm = async (e) => {
         e.preventDefault(); // prevent the browser from automatically submitting the form
-
         const res = await fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -20,6 +19,7 @@ export default function Login() {
         });
 
         const data = await res.json();
+        console.log("we in data",data);
 
         if (res.ok) {
             localStorage.setItem('token', data.token); // Store token in local storage
@@ -33,16 +33,17 @@ export default function Login() {
         <>
             <div>
                 <form onSubmit={submitForm} style={{ width: "500px" }}>
-                    <div class="mb-3">
-                        <label htmlFor="user" class="form-label">User</label>
+                    <div className="mb-3">
+                        <label htmlFor="user" className="form-label">User</label>
                         <input id="user" className="form-control" value={user} onChange={(e) => setUserName(e.target.value)} />
                     </div>
-                    <div class="mb-3">
-                        <label htmlFor="pwd" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="pwd" value={pwd} onChange={(e) => setPwd(e.target.value)} />
+                    <div className="mb-3">
+                        <label htmlFor="pwd" className="form-label">Password</label>
+                        <input type="password" className="form-control" id="pwd" value={pwd} onChange={(e) => setPwd(e.target.value)} />
                     </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" className="btn btn-primary">Login</button>
                 </form>
+                <div>{display}</div>
             </div>
         </>
     );

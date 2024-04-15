@@ -1,20 +1,29 @@
-// pages/api/login.js
+import User from "@/Model/User";
 import jwt from 'jsonwebtoken';
+import connectDb from "../lib/connectDB";
+const bcrypt = require('bcryptjs');
 
-export default function handler(req, res) {
-    // Mock user data. In real scenario, validate user credentials against a database.
-    const { user, pwd } = req.body;
-    
-    // Validate user credentials
-    if (user === 'admin' && pwd === 'test') {
-        // Create JWT token
-        //const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        const token = jwt.sign({ user }, 'secret', { expiresIn: '1h' });
-        
-        console.log(token);
-        // Return token as response
+export default async function handler(req, res) {
+    try {
+        const username = req.body.user;
+        const password = req.body.pwd;
+
+        await connectDb();
+        const user = await User.findOne({ username: username });
+
+        if (!user) {
+            return res.status(401).json({ error: 'No such user' })
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password)
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Password sucks' })
+        }
+
+        const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({ token });
-    } else {
-        res.status(401).json({ error: 'Invalid credentials lol' });
+
+    } catch (error) {
+        res.status(500).json({ error: 'Error logging in' })
     }
 }
