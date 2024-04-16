@@ -10,10 +10,7 @@ export default function Navbar() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         setButtonClass("btn " + (token ? "btn-danger" : "btn-primary"));
-        if (token) {
-            setLoginText("Logout");
-        }
-
+        token ? setLoginText("Logout") : setLoginText("Login");
     }, []);
 
     const log_form = async (e) =>{

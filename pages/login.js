@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
 import { useState } from 'react';
-import { Col, Container, Row } from "react-bootstrap";
 import { useRouter } from 'next/router';
 
 export default function Login() {
@@ -19,7 +18,6 @@ export default function Login() {
         });
 
         const data = await res.json();
-        console.log("we in data",data);
 
         if (res.ok) {
             localStorage.setItem('token', data.token); // Store token in local storage
