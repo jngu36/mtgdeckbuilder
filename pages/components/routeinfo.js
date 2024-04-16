@@ -2,7 +2,7 @@ export default function Login() {
     return (
         <>
             <div>
-                <p>BUS ROUTE COMP</p>
+                <p>Decks Youve built</p>
             </div>
         </>
     );
