@@ -58,7 +58,7 @@ const CardModal = ({ isOpen, closeModal, card }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          backgroundColor: '#fff', // Set modal background color to white
+          backgroundColor: '#eedcb3', // Set modal background color to eedcb3
           padding: '20px',
           borderRadius: '5px',
           maxWidth: '800px', // Adjusted maxWidth
@@ -90,18 +90,23 @@ const CardModal = ({ isOpen, closeModal, card }) => {
         </div>
         <div style={{ flex: 1, marginLeft: '20px' }}>
           <h2>{card.name}</h2>
+          <hr></hr>
           <p>{card.mana_cost}</p>
+          <hr></hr>
           <p>{card.type_line}</p>
+          <hr></hr>
           <p>{card.oracle_text}</p>
+          <hr></hr>
           <p>Illustrated by {card.artist}</p>
+          <hr></hr>
           <h3>Legalities:</h3>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex'}}>
             {/* First column */}
             <div style={{ flex: 1 }}>
               {firstSevenLegalities.map(([format, legality]) => (
                 <p key={format}>
                   <span>{format}:</span>{' '}
-                  <span style={{ color: legality === 'legal' ? 'green' : 'red' }}>{legality}</span>
+                  <span style={{ color: legality === 'legal' ? 'green' : 'red'}}>{legality}</span>
                 </p>
               ))}
             </div>
