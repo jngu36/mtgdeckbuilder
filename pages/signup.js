@@ -45,7 +45,7 @@ export default function Login() {
 
     return (
         <>
-            <div>
+            <div style={{ marginLeft: "35%", marginRight: "35%" }}>
                 <form onSubmit={submitForm} style={{ width: "500px" }}>
                     <div className="mb-3">
                         <label htmlFor="user" className="form-label">User <span style={{ color: "red" }}>{err_msg_1}</span></label>
