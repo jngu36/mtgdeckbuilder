@@ -1,4 +1,4 @@
-import User from "@/Model/User";
+import Dbuser from "@/Model/Dbuser";
 import connectDb from "../lib/connectDB";
 const bcrypt = require('bcryptjs');
 
@@ -11,12 +11,14 @@ export default async function handler(req, res) {
         const hash = await bcrypt.hash(password, 10);
         await connectDb();
 
-        const user = await User.findOne({ username: username });
+        const number = await Dbuser.countDocuments();
+
+        const user = await Dbuser.findOne({ username: username });
         
         if (user) {
             res.status(418).json({ error: "Already exist!" });
         } else {
-            const newUser = await User.create({ email, username, password: hash })
+            const newUser = await Dbuser.create({ id: number+1,username, password: hash, email })
             res.status(200).json({ message: "User created successfully" })
         }
     } catch (error) {

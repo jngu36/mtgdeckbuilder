@@ -1,4 +1,4 @@
-import User from "@/Model/User";
+import Dbuser from '../../Model/Dbuser';
 import jwt from 'jsonwebtoken';
 import connectDb from "../lib/connectDB";
 const bcrypt = require('bcryptjs');
@@ -9,13 +9,14 @@ export default async function handler(req, res) {
         const password = req.body.pwd;
 
         await connectDb();
-        const user = await User.findOne({ username: username });
+        const user = await Dbuser.findOne({ username: username });
 
         if (!user) {
             return res.status(401).json({ error: 'No such user' })
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password)
+
         if (!isPasswordValid) {
             return res.status(401).json({ error: 'Password sucks' })
         }
