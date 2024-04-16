@@ -26,7 +26,7 @@ export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg" style={{ backgroundColor: '#941221' }}>
             <div className="container-fluid">
-                <Link href="/" className="navbar-brand">MTG Deck Builder</Link>
+                <Link href="/" className="navbar-brand" style={{color : '#eedcb3'}}>MTG Deck Builder</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -35,7 +35,7 @@ export default function Navbar() {
                     <Link href="/signup">
                         <button className="btn btn-secondary" style={{ marginRight: '10px', backgroundColor: '#eedcb3', color: '#941221' }}>Create Account</button>
                     </Link>
-                    :
+                    
                     <form onSubmit={log_form}>
                         <button className={button_class} type="submit" style={{ marginLeft: '10px', backgroundColor: '#eedcb3', color: '#941221' }}>{login_text}</button>
                     </form>
