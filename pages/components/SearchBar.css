@@ -1,0 +1,80 @@
+/* components/SearchBar.css */
+.search-bar-container {
+    margin-bottom: 20px;
+  }
+  
+  .search-input-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-input {
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 25px; /* Round border */
+    padding: 10px 15px; /* Padding */
+    margin-right: 10px;
+    font-size: 16px; /* Font size */
+    outline: none; /* Remove outline */
+    transition: border-color 0.3s; /* Smooth transition */
+  }
+  
+  .search-input:focus {
+    border-color: #0056b3; /* Darker blue on focus */
+  }
+  
+  .search-button {
+    background-color: #007bff; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Round border */
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Font size */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition */
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .advanced-search-container {
+    margin-top: 20px;
+  }
+  
+  .advanced-search-row {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .advanced-search-label {
+    margin-right: 10px;
+    color: #8b4513; /* Light brown-red text color */
+  }
+  
+  .advanced-input {
+    border: 2px solid #8b4513; /* Light brown-red border */
+    border-radius: 10px; /* Rounded border */
+    padding: 10px 15px; /* Padding */
+    font-size: 16px; /* Font size */
+    outline: none; /* Remove outline */
+    transition: border-color 0.3s; /* Smooth transition */
+  }
+  
+  .advanced-input:focus {
+    border-color: #a0522d; /* Darker brown-red on focus */
+  }
+  
+  .advanced-select {
+    border: 2px solid #8b4513; /* Light brown-red border */
+    border-radius: 10px; /* Rounded border */
+    padding: 10px 15px; /* Padding */
+    font-size: 16px; /* Font size */
+    outline: none; /* Remove outline */
+    transition: border-color 0.3s; /* Smooth transition */
+  }
+  
+  .advanced-select:focus {
+    border-color: #a0522d; /* Darker brown-red on focus */
+  }
+  
