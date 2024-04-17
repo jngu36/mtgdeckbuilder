@@ -3,16 +3,20 @@ import connectDB from "../lib/connectDB";
 
 export default async function handler(req, res) {
     try {
-        const list = { cards: req.body.cards };
-        const condition = { id: req.body.id };
+        const cards = req.body.cards;
+        const id = req.body.id;
+        const name = req.body.name;
 
-        await connectDB();
-        const user = await Deck.findOneAndUpdate(condition, list);
-        
-        if(user){
-            res.status(200).json({message: "We good!"});
-        }else{
-            res.status(500).json({message: "Nope"});
+        if (cards && id && name) {
+            const list = { $set: {cards: cards, name: name } };
+            const condition = { id: id };
+
+            await connectDB();
+            await Deck.findOneAndUpdate(condition, list);
+
+            res.status(200).json({ message: "We good!" });
+        } else {
+            res.status(500).json({ message: "Nope" });
         }
 
     } catch (error) {
