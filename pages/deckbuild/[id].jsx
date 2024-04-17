@@ -95,13 +95,13 @@ export default function Home() {
       setSearchStatus('Loading...');
       const offset = (currentPage - 1) * pageSize;
       let query = `q=${searchQuery}&format=json&include_extras=false&include_multilingual=false&order=name&page=${currentPage}&unique=cards`;
-
+    
       // Add advanced search parameters to the query string
       if (advancedSearch.cmc !== '') {
         query += `+cmc%3D${advancedSearch.cmc}`;
       }
       if (advancedSearch.type !== '') {
-        query += `+type%3A"${advancedSearch.type}"`;
+        query += `+type%3A${advancedSearch.type}`;
       }
       if (advancedSearch.text !== '') {
         query += `+o%3A"${advancedSearch.text}"`;
@@ -109,12 +109,15 @@ export default function Home() {
       if (advancedSearch.commanderColor !== '') {
         query += `+commander%3A${advancedSearch.commanderColor}`;
       }
-
+    
       const response = await axios.get(`https://api.scryfall.com/cards/search?${query}`);
       const allResults = response.data.data; // Store all search results
       setSearchResults(allResults); // Store all search results
       setTotalPages(Math.ceil(allResults.length / pageSize)); // Update totalPages state
       setSearchStatus(allResults.length === 0 ? 'No card matches' : '');
+      
+      // Clear search query after search
+      setSearchQuery('');
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
