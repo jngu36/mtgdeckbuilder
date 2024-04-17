@@ -39,7 +39,7 @@ export default function Login() {
         }}>
             <div style={{
                 width: '400px',
-                height: '280px',
+                height: '320px',
                 padding: '20px',
                 border: '1px solid #ccc',
                 borderRadius: '10px',
@@ -48,6 +48,7 @@ export default function Login() {
                 textAlign: 'center' // Center the content horizontally
             }}>
                 <form onSubmit={submitForm}>
+                <h1>Log In!</h1>
                     <div className="mb-3">
                         <label htmlFor="user" className="form-label">User</label>
                         <input id="user" className="form-control" value={user} onChange={(e) => setUserName(e.target.value)} />

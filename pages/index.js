@@ -85,7 +85,6 @@ const Home = () => {
           deck of cards.
         </p>
         <br></br>
-
       </div>
       <h1 style={{backgroundColor: "red"}}>{message}</h1>
       <br></br>
