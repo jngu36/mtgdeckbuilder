@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 export default function Home() {
   const [name, setName] = useState('');
-  const [searchQuery, setSearchQuery] = useState(''); // Clear default text
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [advancedSearch, setAdvancedSearch] = useState({
@@ -19,6 +19,9 @@ export default function Home() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [searchStatus, setSearchStatus] = useState('Enter a search input');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [pageSize] = useState(5); // Number of results per page
 
   const [list, setList] = useState([]);
   const [deckName, setDeckName] = useState("");
@@ -31,17 +34,12 @@ export default function Home() {
   const { id } = router.query;
 
   useEffect(() => {
-
-    // Set background color to brown parchment-like color
     document.body.style.backgroundColor = '#eedcb3';
 
     const token = localStorage.getItem('token');
     if (token) {
       setName(jwt.decode(token).user.username);
     }
-
-
-
   }, []);
 
   useEffect(() => {
@@ -49,10 +47,6 @@ export default function Home() {
       getDeck();
     }
   }, [name, id]);
-
-  useEffect(() => {
-
-  }, []);
 
   const getDeck = async () => {
     try {
@@ -92,18 +86,19 @@ export default function Home() {
     }
   }
 
-
   const handleSearch = async () => {
     try {
       setSearchResults([]);
-      setSearchStatus('No card matches');
-      let query = `q=${searchQuery}`;
+      setSearchStatus('Loading...');
+      const offset = (currentPage - 1) * pageSize;
+      let query = `q=${searchQuery}&format=json&include_extras=false&include_multilingual=false&order=name&page=${currentPage}&unique=cards`;
+  
       // Add advanced search parameters to the query string
       if (advancedSearch.cmc !== '') {
         query += `+cmc%3D${advancedSearch.cmc}`;
       }
       if (advancedSearch.type !== '') {
-        query += `+type%3A${advancedSearch.type}`;
+        query += `+type%3A"${advancedSearch.type}"`;
       }
       if (advancedSearch.text !== '') {
         query += `+o%3A"${advancedSearch.text}"`;
@@ -111,12 +106,20 @@ export default function Home() {
       if (advancedSearch.commanderColor !== '') {
         query += `+commander%3A${advancedSearch.commanderColor}`;
       }
-      const response = await axios.get(`https://api.scryfall.com/cards/search?${query}&format=json`);
-      setSearchResults(response.data.data);
-      setSearchStatus(response.data.data.length === 0 ? 'No card matches' : '');
+  
+      const response = await axios.get(`https://api.scryfall.com/cards/search?${query}`);
+      const allResults = response.data.data; // Store all search results
+      setSearchResults(allResults); // Store all search results
+      setTotalPages(Math.ceil(allResults.length / pageSize)); // Update totalPages state
+      setSearchStatus(allResults.length === 0 ? 'No card matches' : '');
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
+  };
+  
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   const handleAdvancedSearch = () => {
@@ -134,7 +137,7 @@ export default function Home() {
   };
 
   const pop_from_list = (index) => {
-    let arr = list;
+    let arr = [...list];
     arr.splice(index, 1);
     setList(arr);
     console.log(list);
@@ -148,7 +151,7 @@ export default function Home() {
       <hr />
       <hr />
 
-      <div className="container" style={{ marginTop: "150x" }}>
+      <div className="container" style={{ marginTop: "150px" }}>
 
         {/* LEFT SIDE IMAGE PREVIEW */}
         <div className='row'>
@@ -201,23 +204,38 @@ export default function Home() {
               advancedSearch={advancedSearch}
               setAdvancedSearch={setAdvancedSearch}
             />
+            <div>
+              {totalPages > 1 && (
+                <ul className="pagination">
+                  <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                    <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</button>
+                  </li>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
+                      <button className="page-link" onClick={() => handlePageChange(page)}>{page}</button>
+                    </li>
+                  ))}
+                  <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                    <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</button>
+                  </li>
+                </ul>
+              )}
+            </div>
 
             <div style={{ width: '90%', backgroundColor: '#941221', padding: '10px', margin: '20px', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               {searchResults.length === 0 ? (
                 <p style={{ color: '#eedcb3' }}>{searchStatus}</p>
               ) : (
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  {searchResults.map((card) => (
-                    <button style={{ background: "transparent", border: "0px" }} onClick={() => {
+                  {searchResults.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((card) => (
+                    <button style={{ background: "transparent", border: "0px" }} key={card.id} onClick={() => {
                       let obj = { name: card.name, img_small: card.image_uris.normal, img_normal: card.image_uris.normal, img_small: card.image_uris.large }
                       setList([...list, obj]);
                     }}>
                       <img
-                        key={card.id}
                         src={card.image_uris.normal}
                         alt={card.name}
                         style={{ width: '150px', margin: '10px', cursor: 'pointer', border: '2px solid #D05766' }}
-                      //onClick={() => openModal(card)}
                       />
                     </button>
                   ))}
@@ -228,6 +246,19 @@ export default function Home() {
             <CardModal isOpen={modalOpen} closeModal={closeModal} card={selectedCard} />
           </div>
         </div>
+      </div>
+
+      {/* Pagination controls */}
+      <div>
+        {totalPages > 1 && (
+          <ul className="pagination">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(page)}>{page}</button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
     </div>
