@@ -76,7 +76,7 @@ const Home = () => {
 
   return (
     <div style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif', padding: '20px', backgroundImage: 'url(https://i.pinimg.com/originals/3a/4e/88/3a4e882d1727232c5fece07bd59056bf.jpg)', backgroundSize: 'cover' }}>
-      <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)', padding: '20px', marginTop: '40px', color: '#eedcb3' }}>
+      <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)', color: '#eedcb3' }}>
         <h1>WELCOME TO OUR DECK BUILDING SITE</h1>
         <p>
           Magic: The Gathering (MTG) is a collectible card game created by mathematics professor Richard Garfield and
@@ -84,8 +84,9 @@ const Home = () => {
           and artifacts to defeat their opponents. The game can be played by two or more players, each using a customized
           deck of cards.
         </p>
+        <br></br>
+
       </div>
-      <br></br>
       <h1 style={{backgroundColor: "red"}}>{message}</h1>
       <br></br>
       {/* Conditionally render the link based on whether the user is logged in */}
