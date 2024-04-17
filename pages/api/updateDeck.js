@@ -14,8 +14,11 @@ export default async function handler(req, res) {
         if(exist){
             const deck = await Deck.find({id: id} );
 
-            console.log("deck: ", deck[0]);
-            res.status(200).json({deck: deck[0]});
+            //update
+            
+            
+
+            res.status(200).json({message: "We good!"});
         }else{
             res.status(500).json({message: "Nope"});
         }

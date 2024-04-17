@@ -15,12 +15,15 @@ const Home = () => {
   const [username, setUser] = useState("");
   const [decks, setDecks] = useState([]);
   const [message, setMessage] = useState("");
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setUser(jwt.decode(token).user.username);
-      setMessage("Hello " + username); 
+    const tok = localStorage.getItem('token');
+
+    if (tok) {
+      setToken(tok);
+      setUser(jwt.decode(tok).user.username);
+      setMessage("Hello " + jwt.decode(tok).user.username); 
     }
   }, []);
 
@@ -30,7 +33,7 @@ const Home = () => {
 
   const fetchUser = async () => {
     try {
-      const res = await fetch('/api/getDeck', {
+      const res = await fetch('/api/getAllDeck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: username }),

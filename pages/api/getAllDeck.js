@@ -5,17 +5,20 @@ import connectDB from "../lib/connectDB";
 export default async function handler(req, res) {
     try {
         const username = req.body.username;
-        const id = req.body.id;
 
         await connectDB();
         const user = await Dbuser.findOne({ username: username });
-        const exist = user.decks.includes(id);
 
-        if(exist){
-            const deck = await Deck.find({id: id} );
+        var arr = [];
 
-            console.log("deck: ", deck[0]);
-            res.status(200).json({deck: deck[0]});
+        user.decks.forEach((element)=>{
+            arr.push(element);
+        });
+
+        const decks = await Deck.find({id: { $in: arr } } );
+
+        if (user) {
+            res.status(200).json({decks: decks});
         }else{
             res.status(500).json({message: "Nope"});
         }

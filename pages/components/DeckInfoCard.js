@@ -8,7 +8,7 @@ function DeckInfoCard( {name = "default deck", desc = "Description of a deck. Fe
         <h5 className="card-title">{name}</h5>
         <p className="card-text">{desc} </p>
         <p>id:{id}</p>
-        <Link href="/">Edit deck</Link>
+        <Link href={"/deckbuild/" + id}>Edit deck</Link>
       </div>
     </div>
   );
