@@ -8,13 +8,14 @@ export default async function handler(req, res) {
 
         let number = await Deck.countDocuments();
         number = number + 1;
-        console.log(number);
-        const name = "New deck";
+        const name = "Untitled Deck"; //replace with given
+        const description = "Generic description of a deck"; //replace with given
         const date = new Date();
 
         const newDeck = await Deck.create({ 
             id: number,
             name: name,
+            description: "New deck description",
             date: date,
         });
 

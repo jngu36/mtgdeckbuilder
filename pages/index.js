@@ -52,7 +52,7 @@ const Home = () => {
       {/* Conditionally render the link based on whether the user is logged in */}
       {typeof window !== 'undefined' && localStorage.getItem('token') ? (
         <Link href="/deckbuild">
-          <button style={{ padding: '10px 20px', fontSize: '16px', marginTop: '20px' }}>Create Deck!</button>
+          <button className="btn btn-warning" style={{ padding: '10px 20px', fontSize: '16px', marginTop: '20px' }}>Create Deck!</button>
         </Link>
       ) : (
         <Link href="/login">

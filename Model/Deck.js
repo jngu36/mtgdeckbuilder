@@ -10,6 +10,9 @@ const deckSchema = new Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+    },
     date: {
         type: Date,
         required: true,

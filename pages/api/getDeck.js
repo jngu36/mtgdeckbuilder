@@ -15,7 +15,6 @@ export default async function handler(req, res) {
             arr.push(element);
         });
 
-        console.log("finding with ", arr);
         const decks = await Deck.find({id: { $in: arr } } );
 
         if (user) {

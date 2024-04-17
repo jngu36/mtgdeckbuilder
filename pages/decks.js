@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from "next/router";
 import jwt from 'jsonwebtoken';
+import DeckInfoCard from './components/DeckInfoCard';
 
 export default function Decks() {
     const [message, setMessage] = useState("Hello");
@@ -31,7 +32,6 @@ export default function Decks() {
             const data = await res.json();
 
             if (res.ok) {
-                console.log("data: ");
                 setDecks(data.decks);
             }
 
@@ -74,14 +74,11 @@ export default function Decks() {
         <div style={{ textAlign: 'center' }}>
             <p>{message}</p>
             <button className='btn btn-primary' onClick={createButton}>Create deck!</button>
-
             <div className='container'>
                 <div className='row'>
-
-                    {decks.map((deck, index) => (
-                        <button>{deck.name}</button>
+                    {decks.map((deck) => (
+                        <DeckInfoCard name={deck.name} desc={deck.description} id={deck.id}/>
                     ))}
-
                 </div>
             </div>
         </div>
