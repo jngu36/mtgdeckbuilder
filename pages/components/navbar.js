@@ -25,6 +25,7 @@ export default function Navbar() {
         e.preventDefault(); // Prevent form submission
         if (localStorage.getItem('token')) {
             localStorage.removeItem('token');
+            setLoginText("Login");
             router.push('/');
         } else {
             router.push('/login');

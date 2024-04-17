@@ -84,10 +84,33 @@ export default function SearchBar({
               className="advanced-select"
               style={{ borderRadius: '5px' }}
             >
-              <option value="">Select Commander Color</option>
-              <option value="W">White</option>
-              <option value="U">Blue</option>
-              {/* Add other options */}
+             
+            <option value="">Select Commander Color</option>
+            <option value="W">White</option>
+            <option value="U">Blue</option>
+            <option value="B">Black</option>
+            <option value="R">Red</option>
+            <option value="G">Green</option>
+            <option value="WU">Azorius</option>
+            <option value="UB">Dimir</option>
+            <option value="BR">Rakdos</option>
+            <option value="RG">Gruul</option>
+            <option value="WG">Selesnya</option>
+            <option value="WB">Orzhov</option>
+            <option value="UR">Izzet</option>
+            <option value="BG">Golgari</option>
+            <option value="RW">Boros</option>
+            <option value="GU">Simic</option>
+            <option value="WUB">Esper</option>
+            <option value="UBR">Grixis</option>
+            <option value="BRG">Jund</option>
+            <option value="RGW">Naya</option>
+            <option value="GWU">Bant</option>
+            <option value="WBR">Mardu</option>
+            <option value="URG">Temur</option>
+            <option value="BGW">Abzan</option>
+            <option value="RGU">Jeskai</option>
+            <option value="WUBRG">Five-color</option>
             </select>
           </div>
         </div>
