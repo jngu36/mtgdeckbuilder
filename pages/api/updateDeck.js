@@ -15,9 +15,9 @@ export default async function handler(req, res) {
             await connectDB();
             await Deck.findOneAndUpdate(condition, list);
 
-            res.status(200).json({ message: "We good!" });
+            res.status(200).json({ message: "Deck saved!" });
         } else {
-            res.status(500).json({ message: "Nope" });
+            res.status(500).json({ message: "We have no idea what went wrong." });
         }
 
     } catch (error) {
