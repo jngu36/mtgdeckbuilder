@@ -1,6 +1,7 @@
 import Dbuser from "@/Model/Dbuser";
-import connectDb from "../lib/connectDB";
 const bcrypt = require('bcryptjs');
+import connectDB from "../lib/connectDB";
+import { connect } from "mongoose";
 
 export default async function handler(req, res) {
     try {
@@ -8,8 +9,9 @@ export default async function handler(req, res) {
         const password = req.body.pwd;
         const email = req.body.email;
         
+        await connectDB();
+
         const hash = await bcrypt.hash(password, 10);
-        await connectDb();
 
         const number = await Dbuser.countDocuments();
 

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         const user = await Dbuser.findOne({ username: username });
 
         if (!user) {
-            return res.status(401).json({ error: 'No such user' })
+            return res.status(401).json({ error: 'No such user' });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password)

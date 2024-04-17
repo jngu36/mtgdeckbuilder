@@ -2,50 +2,69 @@ import { useEffect, useState } from 'react';
 import { useRouter } from "next/router";
 import jwt from 'jsonwebtoken';
 
-export default function Home() {
+export default function Decks() {
     const [message, setMessage] = useState("Hello");
-    const [data, setData] = useState("");
+    const [username, setUser] = useState("");
+    const [decks, setDecks] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-
         if (token) {
             setMessage("Hello, " + jwt.decode(token).user.username);
+            setUser(jwt.decode(token).user.username);
         }
-
-        
-
     }, []);
 
+    useEffect(() => {
+        fetchUser();
+    }, [username]);
+
+    const fetchUser = async () => {
+        try {
+            const res = await fetch('/api/getDeck', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                console.log("data: ");
+                setDecks(data.decks);
+            }
+
+        } catch (error) {
+            console.log("error: ", error);
+        }
+
+    }
+
     const createButton = async () => {
+
         const token = localStorage.getItem('token');
 
         if (!token) {
             router.push('/login')
         } else {
-            const user = jwt.decode(token).user;
-            console.log(user.username);
-            console.log(user.id);
-
             const res = await fetch('/api/createDeck', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             });
 
             const data = await res.json();
-            console.log(data);
 
             if (res.ok) {
-
-                const username = user.username;
                 const id = data.id;
 
                 await fetch('/api/addDeck', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, id }),
+                    body: JSON.stringify({ username: username, id }),
                 });
+
+                //redirect
             }
 
         }
@@ -54,8 +73,17 @@ export default function Home() {
     return (
         <div style={{ textAlign: 'center' }}>
             <p>{message}</p>
-            <p>{data}</p>
             <button className='btn btn-primary' onClick={createButton}>Create deck!</button>
+
+            <div className='container'>
+                <div className='row'>
+
+                    {decks.map((deck, index) => (
+                        <button>{deck.name}</button>
+                    ))}
+
+                </div>
+            </div>
         </div>
     );
 }

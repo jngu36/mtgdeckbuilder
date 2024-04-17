@@ -1,4 +1,5 @@
 import Dbuser from "@/Model/Dbuser";
+import connectDB from "../lib/connectDB";
 const bcrypt = require('bcryptjs');
 
 export default async function handler(req, res) {
@@ -6,6 +7,7 @@ export default async function handler(req, res) {
         const username = req.body.username;
         const id = req.body.id;
 
+        await connectDB();
         const user = await Dbuser.findOne({ username: username});
         
         if (user) {
