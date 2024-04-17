@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import CardModal from '../components/CardModal';
 import SearchBar from '../components/SearchBar';
 import { useRouter } from 'next/router';
-
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Home() {
   const [name, setName] = useState('');
@@ -77,12 +77,14 @@ export default function Home() {
 
   const saveDeck = async () => {
     try {
-      console.log("Attempting toupdate with: ", id, deckName);
-      await fetch('/api/updateDeck', {
+      const res = await fetch('/api/updateDeck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: id, cards: list, name: deckName, description: desc }),
-      });
+      })
+
+      const data = await res.json();
+      toast(data.message);
 
     } catch (error) {
       console.log("error: ", error);
@@ -95,7 +97,7 @@ export default function Home() {
       setSearchStatus('Loading...');
       const offset = (currentPage - 1) * pageSize;
       let query = `q=${searchQuery}&format=json&include_extras=false&include_multilingual=false&order=name&page=${currentPage}&unique=cards`;
-    
+
       // Add advanced search parameters to the query string
       if (advancedSearch.cmc !== '') {
         query += `+cmc%3D${advancedSearch.cmc}`;
@@ -109,13 +111,13 @@ export default function Home() {
       if (advancedSearch.commanderColor !== '') {
         query += `+commander%3A${advancedSearch.commanderColor}`;
       }
-    
+
       const response = await axios.get(`https://api.scryfall.com/cards/search?${query}`);
       const allResults = response.data.data; // Store all search results
       setSearchResults(allResults); // Store all search results
       setTotalPages(Math.ceil(allResults.length / pageSize)); // Update totalPages state
       setSearchStatus(allResults.length === 0 ? 'No card matches' : '');
-      
+
       // Clear search query after search
       setSearchQuery('');
     } catch (error) {
@@ -148,6 +150,8 @@ export default function Home() {
     setList(arr);
     console.log(list);
   }
+
+  const notify = () => toast('Here is your toast.');
 
   return (
     <div style={{ textAlign: 'center', fontFamily: 'Papyrus', padding: '20px', color: '#941221', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -193,6 +197,8 @@ export default function Home() {
               }
             </div>
             <button onClick={saveDeck} className="btn btn-primary">save</button>
+            <Toaster />
+
           </div>
 
           {/* RIGHT SIDE SEARCH */}
