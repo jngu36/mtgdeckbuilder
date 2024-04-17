@@ -9,6 +9,13 @@ export default function SearchBar({
   advancedSearch,
   setAdvancedSearch,
 }) {
+  
+  // Add console.log to log the advancedSearch state whenever it changes
+  React.useEffect(() => {
+    console.log('Advanced Search State:', advancedSearch);
+  }, [advancedSearch]);
+
+  
   const handleSearchWithErrorHandling = async () => {
     try {
       await handleSearch();
