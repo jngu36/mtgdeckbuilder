@@ -49,6 +49,10 @@ export default function Home() {
     }
   }, [name, id]);
 
+  useEffect(() => {
+
+  }, []);
+
   const getDeck = async () => {
     try {
       const res = await fetch('/api/getDeck', {
@@ -129,19 +133,10 @@ export default function Home() {
 
   const pop_from_list = (index) => {
     let arr = list;
-    arr.pop(index);
+    arr.splice(index, 1);
     setList(arr);
+    console.log(list);
   }
-
-  const hover_enter = (url) =>{
-    setImg(url);
-  }
-
-  const hover_exit = () =>{
-    setImg("");
-  }
-
-
 
   return (
     <div style={{ textAlign: 'center', fontFamily: 'Papyrus', padding: '20px', color: '#941221', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -152,20 +147,28 @@ export default function Home() {
       <hr />
 
       <div className="container" style={{ marginTop: "150x" }}>
+
+        {/* LEFT SIDE IMAGE PREVIEW */}
         <div className='row'>
-          <div className='col'>
-            <img src={img} alt="Preview" />
+          <div className='col-sm'>
+            <img src={img} alt="Preview" style={{ width: "410px" }} />
           </div>
 
-          {/* LEFT SIDE LIST */}
-          <div className='col'>
+          {/* MIDDLE LIST */}
+          <div className='col-sm'>
             <p style={{ color: "blue" }}>{deckName}</p>
+            
             <div style={{ border: "2px solid red" }}>
               {
                 list ?
                   list.map((card, index) => (
-                    <div key={index}>
-                      <p onMouseEnter={()=>setImg(card.img_normal)} onMouseLeave={()=> setImg("")}>{card.name}</p> <button onClick={() => pop_from_list(index)}>-</button>
+                    <div key={index} className='row'>
+                      <div className='col' style={{textAlign: "left"}}>
+                        <p onMouseEnter={() => setImg(card.img_normal)} onMouseLeave={() => setImg("")}>{card.name}</p>
+                      </div>
+                      <div className='col-md-auto'>
+                        <button onClick={() => pop_from_list(index)}>-</button>
+                      </div>
                     </div>
                   )) : <p>Empty!</p>
               }
@@ -174,7 +177,7 @@ export default function Home() {
           </div>
 
           {/* RIGHT SIDE SEARCH */}
-          <div className='col'>
+          <div className='col-sm'>
 
             <SearchBar
               searchQuery={searchQuery}
