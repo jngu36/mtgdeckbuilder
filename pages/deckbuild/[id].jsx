@@ -5,6 +5,7 @@ import CardModal from '../components/CardModal';
 import SearchBar from '../components/SearchBar';
 import { useRouter } from 'next/router';
 
+
 export default function Home() {
   const [name, setName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -28,6 +29,7 @@ export default function Home() {
 
   const [img, setImg] = useState("");
   const [desc, setDesc] = useState("");
+
 
   const router = useRouter();
 
@@ -58,6 +60,7 @@ export default function Home() {
         .then((data) => {
           if (data.deck) {
             setDeckName(data.deck.name);
+            setDesc(data.deck.description);
             let arr = [];
             data.deck.cards.forEach((element, index) => {
               arr.push({ key: index, name: element.name, img_small: element.img_small, img_normal: element.img_normal });
@@ -78,7 +81,7 @@ export default function Home() {
       await fetch('/api/updateDeck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id, cards: list, name: deckName, description: desc}),
+        body: JSON.stringify({ id: id, cards: list, name: deckName, description: desc }),
       });
 
     } catch (error) {
@@ -92,7 +95,7 @@ export default function Home() {
       setSearchStatus('Loading...');
       const offset = (currentPage - 1) * pageSize;
       let query = `q=${searchQuery}&format=json&include_extras=false&include_multilingual=false&order=name&page=${currentPage}&unique=cards`;
-  
+
       // Add advanced search parameters to the query string
       if (advancedSearch.cmc !== '') {
         query += `+cmc%3D${advancedSearch.cmc}`;
@@ -106,7 +109,7 @@ export default function Home() {
       if (advancedSearch.commanderColor !== '') {
         query += `+commander%3A${advancedSearch.commanderColor}`;
       }
-  
+
       const response = await axios.get(`https://api.scryfall.com/cards/search?${query}`);
       const allResults = response.data.data; // Store all search results
       setSearchResults(allResults); // Store all search results
@@ -116,7 +119,7 @@ export default function Home() {
       console.error('Error fetching search results:', error);
     }
   };
-  
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -161,22 +164,22 @@ export default function Home() {
 
           {/* MIDDLE LIST */}
           <div className='col-sm'>
-            
-            <label htmlFor="deck_name">Deck Name: </label>
-            <input id="deck_name" style={{ color: "blue" }} value={deckName} onChange={(e)=>{ setDeckName(e.target.value)}}/>
 
-            <br/>
+            <label htmlFor="deck_name">Deck Name: </label>
+            <input id="deck_name" style={{ color: "blue" }} value={deckName} onChange={(e) => { setDeckName(e.target.value) }} />
+
+            <br />
 
             <label htmlFor="deck_desc">Description: </label>
-            <input id="deck_desc" style={{ color: "blue" }} value={desc}  onChange={(e)=>{ setDesc(e.target.value)}}/>
+            <input id="deck_desc" style={{ color: "blue" }} value={desc} onChange={(e) => { setDesc(e.target.value) }} />
 
-            <br/> 
+            <br />
             <div style={{ border: "2px solid red" }}>
               {
                 list ?
                   list.map((card, index) => (
                     <div key={index} className='row'>
-                      <div className='col' style={{textAlign: "left"}}>
+                      <div className='col' style={{ textAlign: "left" }}>
                         <p onMouseEnter={() => setImg(card.img_normal)} onMouseLeave={() => setImg("")}>{card.name}</p>
                       </div>
                       <div className='col-md-auto'>
@@ -244,6 +247,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+
     </div>
   );
 }
