@@ -27,6 +27,7 @@ export default function Home() {
   const [deckName, setDeckName] = useState("");
 
   const [img, setImg] = useState("");
+  const [desc, setDesc] = useState("");
 
   const router = useRouter();
 
@@ -73,10 +74,11 @@ export default function Home() {
 
   const saveDeck = async () => {
     try {
+      console.log("Attempting toupdate with: ", id, deckName);
       await fetch('/api/updateDeck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id, cards: list }),
+        body: JSON.stringify({ id: id, cards: list, name: deckName}),
       });
 
     } catch (error) {
@@ -159,8 +161,19 @@ export default function Home() {
 
           {/* MIDDLE LIST */}
           <div className='col-sm'>
-            <p style={{ color: "blue" }}>{deckName}</p>
             
+            <label htmlFor="deck_name">Deck Name: </label>
+            <input id="deck_name" style={{ color: "blue" }} value={deckName} onChange={(e)=>{ setDeckName(e.target.value)}}/>
+
+            <br/>
+
+            {/**.
+             * 
+             * will enable desc another time
+            <label htmlFor="deck_desc">Description: </label>
+            <input id="deck_desc" style={{ color: "blue" }} value={desc}  onChange={(e)=>{ setDesc(e.target.value)}}/>
+            */}
+            <br/> 
             <div style={{ border: "2px solid red" }}>
               {
                 list ?
