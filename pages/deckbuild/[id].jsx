@@ -78,7 +78,7 @@ export default function Home() {
       await fetch('/api/updateDeck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id, cards: list, name: deckName}),
+        body: JSON.stringify({ id: id, cards: list, name: deckName, description: desc}),
       });
 
     } catch (error) {
@@ -170,12 +170,9 @@ export default function Home() {
 
             <br/>
 
-            {/**.
-             * 
-             * will enable desc another time
             <label htmlFor="deck_desc">Description: </label>
             <input id="deck_desc" style={{ color: "blue" }} value={desc}  onChange={(e)=>{ setDesc(e.target.value)}}/>
-            */}
+
             <br/> 
             <div style={{ border: "2px solid red" }}>
               {
@@ -231,7 +228,7 @@ export default function Home() {
               ) : (
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                   {searchResults.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((card) => (
-                    <button style={{ background: "transparent", border: "0px" }} key={card.id} onClick={() => {
+                    <button onMouseEnter={() => setImg(card.image_uris.normal)} onMouseLeave={() => setImg("")} style={{ background: "transparent", border: "0px" }} key={card.id} onClick={() => {
                       let obj = { name: card.name, img_small: card.image_uris.normal, img_normal: card.image_uris.normal, img_small: card.image_uris.large }
                       setList([...list, obj]);
                     }}>

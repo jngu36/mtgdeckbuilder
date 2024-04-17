@@ -130,7 +130,9 @@ const Home = () => {
         </Link>
       )}
 
-
+      <br/>
+      <br/>
+      
       <div className='container'>
         <div className='row'>
           {decks.map((deck) => (
