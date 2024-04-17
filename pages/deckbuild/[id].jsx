@@ -244,20 +244,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Pagination controls */}
-      <div>
-        {totalPages > 1 && (
-          <ul className="pagination">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
-                <button className="page-link" onClick={() => handlePageChange(page)}>{page}</button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
     </div>
   );
 }
