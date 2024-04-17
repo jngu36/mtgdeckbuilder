@@ -20,11 +20,13 @@ export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [searchStatus, setSearchStatus] = useState('Enter a search input');
 
-  const [list, setList] = useState("");
+  const [list, setList] = useState([]);
+  const [deckName, setDeckName] = useState("");
 
-  const [deck, setDeck] = useState("");
+  const [img, setImg] = useState("");
 
   const router = useRouter();
+
   const { id } = router.query;
 
   useEffect(() => {
@@ -37,12 +39,15 @@ export default function Home() {
       setName(jwt.decode(token).user.username);
     }
 
+
+
   }, []);
 
   useEffect(() => {
-    getDeck();
-  }, [name]);
-
+    if (name) {
+      getDeck();
+    }
+  }, [name, id]);
 
   const getDeck = async () => {
     try {
@@ -50,13 +55,32 @@ export default function Home() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: name, id: id }),
+      }).then((res) => res.json())
+        .then((data) => {
+          if (data.deck) {
+            setDeckName(data.deck.name);
+            let arr = [];
+            data.deck.cards.forEach((element, index) => {
+              arr.push({ key: index, name: element.name, img_small: element.img_small, img_normal: element.img_normal });
+            })
+
+            setList(arr);
+          }
+        });
+
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  }
+
+  const saveDeck = async () => {
+    try {
+      await fetch('/api/updateDeck', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id, cards: list }),
       });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setDeck(data.deck);
-      }
     } catch (error) {
       console.log("error: ", error);
     }
@@ -103,29 +127,50 @@ export default function Home() {
     setModalOpen(false);
   };
 
-  
+  const pop_from_list = (index) => {
+    let arr = list;
+    arr.pop(index);
+    setList(arr);
+  }
+
+  const hover_enter = (url) =>{
+    setImg(url);
+  }
+
+  const hover_exit = () =>{
+    setImg("");
+  }
+
+
 
   return (
     <div style={{ textAlign: 'center', fontFamily: 'Papyrus', padding: '20px', color: '#941221', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1>Hello {name}! Welcome To The Card Search</h1>
       <h2>Use the search bar to search for any MTG Cards!</h2>
 
+      <hr />
+      <hr />
 
       <div className="container" style={{ marginTop: "150x" }}>
         <div className='row'>
+          <div className='col'>
+            <img src={img} alt="Preview" />
+          </div>
 
           {/* LEFT SIDE LIST */}
           <div className='col'>
-            <p style={{ color: "blue" }}>{deck.name}</p>
-            <div style={{ border: "1px" }}>
-              <button className="btn btn-primary">save</button>
+            <p style={{ color: "blue" }}>{deckName}</p>
+            <div style={{ border: "2px solid red" }}>
               {
-                deck ?
-                  deck.cards.map((card) => (
-                    <p>{card.name}</p>
+                list ?
+                  list.map((card, index) => (
+                    <div key={index}>
+                      <p onMouseEnter={()=>setImg(card.img_normal)} onMouseLeave={()=> setImg("")}>{card.name}</p> <button onClick={() => pop_from_list(index)}>-</button>
+                    </div>
                   )) : <p>Empty!</p>
               }
             </div>
+            <button onClick={saveDeck} className="btn btn-primary">save</button>
           </div>
 
           {/* RIGHT SIDE SEARCH */}
@@ -141,19 +186,22 @@ export default function Home() {
               setAdvancedSearch={setAdvancedSearch}
             />
 
-            <div style={{ width: '70%', backgroundColor: '#941221', padding: '10px', margin: '20px', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ width: '90%', backgroundColor: '#941221', padding: '10px', margin: '20px', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               {searchResults.length === 0 ? (
                 <p style={{ color: '#eedcb3' }}>{searchStatus}</p>
               ) : (
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                   {searchResults.map((card) => (
-                    <button style={{background: "transparent", border: "0px"}} onClick={()=>{console.log("lmao get", card.name)}}>
+                    <button style={{ background: "transparent", border: "0px" }} onClick={() => {
+                      let obj = { name: card.name, img_small: card.image_uris.normal, img_normal: card.image_uris.normal, img_small: card.image_uris.large }
+                      setList([...list, obj]);
+                    }}>
                       <img
                         key={card.id}
                         src={card.image_uris.normal}
                         alt={card.name}
                         style={{ width: '150px', margin: '10px', cursor: 'pointer', border: '2px solid #D05766' }}
-                        //onClick={() => openModal(card)}
+                      //onClick={() => openModal(card)}
                       />
                     </button>
                   ))}

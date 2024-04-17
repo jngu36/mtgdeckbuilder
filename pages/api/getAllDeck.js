@@ -1,6 +1,7 @@
-import Dbuser from "@/Model/Dbuser";
-import Deck from "@/Model/Deck";
+import Dbuser from "../../Model/dbuser";
+import Deck from "../../Model/Deck";
 import connectDB from "../lib/connectDB";
+
 
 export default async function handler(req, res) {
     try {
