@@ -1,4 +1,4 @@
-import Deck from "@/Model/Deck";
+import Deck from "../../Model/Deck";
 import connectDB from "../lib/connectDB";
 
 export default async function handler(req, res) {

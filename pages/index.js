@@ -4,6 +4,7 @@ import axios from 'axios';
 import CardModal from './components/CardModal';
 import jwt from 'jsonwebtoken';
 import DeckInfoCard from './components/DeckInfoCard';
+import { useRouter } from 'next/router';
 
 const Home = () => {
   const [randomLegendaryCards, setRandomLegendaryCards] = useState([]);
@@ -17,13 +18,16 @@ const Home = () => {
   const [message, setMessage] = useState("");
   const [token, setToken] = useState(null);
 
+  //router
+  const router = useRouter();
+
   useEffect(() => {
     const tok = localStorage.getItem('token');
 
     if (tok) {
       setToken(tok);
       setUser(jwt.decode(tok).user.username);
-      setMessage("Hello " + jwt.decode(tok).user.username); 
+      setMessage("Hello " + jwt.decode(tok).user.username);
     }
   }, []);
 
@@ -77,6 +81,30 @@ const Home = () => {
     setModalOpen(false);
   };
 
+  const createButton = async () => {
+
+    const token = localStorage.getItem('token');
+    let id = "";
+
+    await fetch('/api/createDeck', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        id = data.id;
+      });
+
+    await fetch('/api/addDeck', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username, id }),
+    }).then(() => {
+      const url = "/deckbuild/" + id;
+      router.push(url);
+    });
+  }
+
   return (
     <div style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif', padding: '20px', backgroundImage: 'url(https://i.pinimg.com/originals/3a/4e/88/3a4e882d1727232c5fece07bd59056bf.jpg)', backgroundSize: 'cover' }}>
       <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)', color: '#eedcb3' }}>
@@ -89,13 +117,12 @@ const Home = () => {
         </p>
         <br></br>
       </div>
-      <h1 style={{backgroundColor: "red"}}>{message}</h1>
+      <h1 style={{ backgroundColor: "red" }}>{message}</h1>
       <br></br>
       {/* Conditionally render the link based on whether the user is logged in */}
+
       {typeof window !== 'undefined' && localStorage.getItem('token') ? (
-        <Link href="/deckbuild">
-          <button className="btn btn-warning" style={{ padding: '10px 20px', fontSize: '16px', marginTop: '20px' }}>Create Deck!</button>
-        </Link>
+        <button className="btn btn-warning" onClick={createButton} style={{ padding: '10px 20px', fontSize: '16px', marginTop: '20px' }}>Create Deck!</button>
       ) : (
         <Link href="/login">
           <br></br>

@@ -1,4 +1,4 @@
-import Dbuser from "@/Model/Dbuser";
+import Dbuser from "../../Model/dbuser";
 import connectDB from "../lib/connectDB";
 const bcrypt = require('bcryptjs');
 
