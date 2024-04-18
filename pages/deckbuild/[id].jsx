@@ -42,7 +42,7 @@ export default function Home() {
     const token = localStorage.getItem('token');
     if (token) {
       setName(jwt.decode(token).user.username);
-    }else{
+    } else {
       router.push('/');
     }
   }, []);
@@ -58,7 +58,7 @@ export default function Home() {
       await fetch('/api/getDeck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({id: id }),
+        body: JSON.stringify({ id: id }),
       }).then((res) => res.json())
         .then((data) => {
           if (data.deck) {
@@ -189,25 +189,25 @@ export default function Home() {
                 list ?
                   list.map((card, index) => (
                     <div key={index} className='row'>
-  <div className='col' style={{ textAlign: "left" }}>
-    <p 
-      style={{ margin: '10px', color: '#941221' }} // Set default color to black
-      onMouseEnter={() => setImg(card.img_normal)} 
-      onMouseLeave={() => setImg("")}
-    >
-      <span 
-        style={{ color: 'inherit' }} // Inherit color from parent element
-        onMouseEnter={(e) => e.target.style.color = 'blue'} // Change color to pink on hover
-        onMouseLeave={(e) => e.target.style.color = 'inherit'} // Reset color on mouse leave
-      >
-        {card.name}
-      </span>
-    </p>
-  </div>
-  <div className='col-md-auto'>
-    <button onClick={() => pop_from_list(index)}>-</button>
-  </div>
-</div>
+                      <div className='col' style={{ textAlign: "left" }}>
+                        <p
+                          style={{ margin: '10px', color: '#941221' }} // Set default color to black
+                          onMouseEnter={() => setImg(card.img_normal)}
+                          onMouseLeave={() => setImg("")}
+                        >
+                          <span
+                            style={{ color: 'inherit' }} // Inherit color from parent element
+                            onMouseEnter={(e) => e.target.style.color = 'blue'} // Change color to pink on hover
+                            onMouseLeave={(e) => e.target.style.color = 'inherit'} // Reset color on mouse leave
+                          >
+                            {card.name}
+                          </span>
+                        </p>
+                      </div>
+                      <div className='col-md-auto'>
+                        <button onClick={() => pop_from_list(index)}>-</button>
+                      </div>
+                    </div>
 
                   )) : <p>Empty!</p>
               }
@@ -225,7 +225,7 @@ export default function Home() {
               setSearchQuery={setSearchQuery}
               handleSearch={handleSearch}
             />
-            <div style={{ textAlign: 'center', marginLeft:'100px'}}>
+            <div style={{ textAlign: 'center', marginLeft: '100px' }}>
               {totalPages > 1 && (
                 <ul className="pagination">
                   <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
@@ -249,12 +249,12 @@ export default function Home() {
               ) : (
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                   {searchResults.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((card) => (
-                    <button onMouseEnter={() => setImg(card.image_uris.normal)} onMouseLeave={() => setImg("")} style={{ background: "transparent", border: "0px" }} key={card.id} onClick={() => {
+                    <button onMouseEnter={() => setImg(card.image_uris ? card.image_uris.normal : "")} onMouseLeave={() => setImg("")} style={{ background: "transparent", border: "0px" }} key={card.id} onClick={() => {
                       let obj = { name: card.name, img_small: card.image_uris.normal, img_normal: card.image_uris.normal, img_small: card.image_uris.large }
                       setList([...list, obj]);
                     }}>
                       <img
-                        src={card.image_uris.normal}
+                        src={card.image_uris ? card.image_uris.normal : ""}
                         alt={card.name}
                         style={{ width: '150px', margin: '10px', cursor: 'pointer', border: '2px solid #D05766' }}
                       />
