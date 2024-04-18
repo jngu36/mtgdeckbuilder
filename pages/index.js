@@ -86,23 +86,27 @@ const Home = () => {
     const token = localStorage.getItem('token');
     let id = "";
 
-    await fetch('/api/createDeck', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        id = data.id;
-      });
+    if (token) {
+      await fetch('/api/createDeck', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          id = data.id;
+        });
 
-    await fetch('/api/addDeck', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: username, id }),
-    }).then(() => {
-      const url = "/deckbuild/" + id;
-      router.push(url);
-    });
+      await fetch('/api/addDeck', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, id }),
+      }).then(() => {
+        const url = "/deckbuild/" + id;
+        router.push(url);
+      });
+    }else{
+      router.push("/login");
+    }
   }
 
   return (
@@ -119,20 +123,12 @@ const Home = () => {
       </div>
       <h1 style={{ backgroundColor: "red" }}>{message}</h1>
       <br></br>
-      {/* Conditionally render the link based on whether the user is logged in */}
 
-      {typeof window !== 'undefined' && localStorage.getItem('token') ? (
-        <button className="btn btn-warning" onClick={createButton} style={{ padding: '10px 20px', fontSize: '16px', marginTop: '20px' }}>Create Deck!</button>
-      ) : (
-        <Link href="/login">
-          <br></br>
-          <button style={{ padding: '10px 20px', fontSize: '16px', marginTop: '20px', backgroundColor: '#eedcb3', color: '#941221' }}>Create Deck!</button>
-        </Link>
-      )}
+      <button className="btn btn-warning" onClick={createButton} style={{ padding: '10px 20px', fontSize: '16px', marginTop: '20px' }}>Create Deck!</button>
 
-      <br/>
-      <br/>
-      
+      <br />
+      <br />
+
       <div className='container'>
         <div className='row'>
           {decks.map((deck) => (
