@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 
 const CardModal = ({ isOpen, closeModal, card }) => {
   if (!isOpen || !card) {
@@ -87,8 +86,7 @@ const CardModal = ({ isOpen, closeModal, card }) => {
             &#10006;
           </button>
           {/* Display the image */}
-          
-          <Image src={card.image_uris.large} alt={card.name} style={{ maxWidth: '100%' }} />
+          <img src={card.image_uris.large} alt={card.name} style={{ maxWidth: '100%' }} />
         </div>
         <div style={{ flex: 1, marginLeft: '20px' }}>
           <h2>{card.name}</h2>
