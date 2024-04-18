@@ -153,9 +153,7 @@ export default function Home() {
     setList(arr);
     console.log(list);
   }
-
-  const notify = () => toast('Here is your toast.');
-
+  
   return (
     <div style={{ textAlign: 'center', fontFamily: 'Papyrus', padding: '20px', color: '#941221', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1>Hello {name}! Welcome To The Card Search</h1>

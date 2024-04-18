@@ -107,7 +107,7 @@ const Home = () => {
   }
 
   return (
-    <div style={{ textAlign: 'center', fontFamily: 'Papyrus', backgroundImage: 'url(https://i.pinimg.com/originals/3a/4e/88/3a4e882d1727232c5fece07bd59056bf.jpg)', backgroundSize: 'cover' }}>
+    <div style={{ textAlign: 'center' ,fontFamily: 'Papyrus', backgroundImage: 'url(https://i.pinimg.com/originals/3a/4e/88/3a4e882d1727232c5fece07bd59056bf.jpg)', backgroundSize: 'cover' }}>
       <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)', color: '#eedcb3' }}>
         <h1>{message}</h1>
         <p>
@@ -127,7 +127,7 @@ const Home = () => {
 
       <div className='container'>
         <div className='row'>
-          {decks.map((deck, index) => (
+          { decks.map((deck, index) => (
             <DeckInfoCard key={index} name={deck.name} desc={deck.description} id={deck._id} owner={username} />
           ))}
         </div>
