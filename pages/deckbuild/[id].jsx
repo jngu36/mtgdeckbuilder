@@ -35,9 +35,10 @@ export default function Home() {
 
   const { id } = router.query;
 
+  console.log(id);
+
   useEffect(() => {
     document.body.style.backgroundColor = '#eedcb3';
-
     const token = localStorage.getItem('token');
     if (token) {
       setName(jwt.decode(token).user.username);
@@ -54,10 +55,10 @@ export default function Home() {
 
   const getDeck = async () => {
     try {
-      const res = await fetch('/api/getDeck', {
+      await fetch('/api/getDeck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: name, id: id }),
+        body: JSON.stringify({id: id }),
       }).then((res) => res.json())
         .then((data) => {
           if (data.deck) {

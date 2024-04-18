@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
         if (cards && id && name) {
             const list = { $set: {cards: cards, name: name, description: description} };
-            const condition = { id: id };
+            const condition = { _id: id };
 
             await connectDB();
             await Deck.findOneAndUpdate(condition, list);

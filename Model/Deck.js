@@ -1,11 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
 const deckSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     name: {
         type: String,
         required: true,
@@ -15,7 +10,6 @@ const deckSchema = new Schema({
     },
     date: {
         type: Date,
-        required: true,
     },
     cards: {
         type: [],

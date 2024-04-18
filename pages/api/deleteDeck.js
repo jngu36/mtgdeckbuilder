@@ -6,25 +6,21 @@ import connectDB from "../lib/connectDB";
 export default async function handler(req, res) {
     try {
         const userName = req.body.username;
-        const id = req.body.deckId;
+        const id = req.body.id;
 
         await connectDB();
         const user = await Dbuser.findOne({ username: userName });
 
         var arr = user.decks;
         const index = arr.indexOf(id);
-        arr.splice(index);
-
+        arr.splice(index, 1);
+        
         user.decks = arr;
         user.save();
 
-        await Deck.deleteOne({id: id });
+        await Deck.deleteOne({_id: id });
 
-        if (user) {
-            res.status(200).json({ message: "No Problems" });
-        } else {
-            res.status(500).json({ message: "Nope" });
-        }
+        res.status(200).json({ message: "No Problems" });
 
     } catch (error) {
         console.log(error);

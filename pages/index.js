@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import axios from 'axios';
 import CardModal from './components/CardModal';
 import jwt from 'jsonwebtoken';
@@ -26,29 +25,23 @@ const Home = () => {
     if (token) {
       setUser(jwt.decode(token).user.username);
       setMessage(`Welcome ${jwt.decode(token).user.username}, to Abdulmuhsin & John's deck building site`);
-    }else{
-      setMessage(`Welcome to Abdulmuhsin & John's deck building site`);
 
+      fetchUser(jwt.decode(token).user.username);
+    } else {
+      setMessage(`Welcome to Abdulmuhsin & John's deck building site`);
     }
   }, []);
 
-  useEffect(() => {
-    fetchUser();
-  }, [username]);
-
-  const fetchUser = async () => {
+  const fetchUser = async (name) => {
     try {
       const res = await fetch('/api/getAllDeck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
+        body: JSON.stringify({ username: name }),
+      }).then((res)=>res.json())
+      .then((data)=>{
         setDecks(data.decks);
-      }
+      });
     } catch (error) {
       console.log("error: ", error);
     }
@@ -83,7 +76,6 @@ const Home = () => {
   };
 
   const createButton = async () => {
-
     const token = localStorage.getItem('token');
     let id = "";
 
@@ -91,20 +83,22 @@ const Home = () => {
       await fetch('/api/createDeck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-      })
-        .then((res) => res.json())
+      }).then((res) => res.json())
         .then((data) => {
+          console.log(data);
           id = data.id;
-        });
+        })
 
-      await fetch('/api/addDeck', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username, id }),
-      }).then(() => {
-        const url = "/deckbuild/" + id;
-        router.push(url);
-      });
+      if (id) {
+        await fetch('/api/addDeck', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: username, id }),
+        }).then(() => {
+          const url = "/deckbuild/" + id;
+          router.push(url);
+        });
+      }
     } else {
       router.push("/login");
     }
@@ -132,7 +126,7 @@ const Home = () => {
       <div className='container'>
         <div className='row'>
           {decks.map((deck, index) => (
-            <DeckInfoCard key={index} name={deck.name} desc={deck.description} id={deck.id} owner={username} />
+            <DeckInfoCard key={index} name={deck.name} desc={deck.description} id={deck._id} owner={username} />
           ))}
         </div>
       </div>

@@ -9,6 +9,7 @@ export default async function handler(req, res) {
         const password = req.body.pwd;
 
         await connectDb();
+        
         const user = await Dbuser.findOne({ username: username });
 
         if (!user) {

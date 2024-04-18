@@ -8,22 +8,20 @@ export default async function handler(req, res) {
         const username = req.body.username;
 
         await connectDB();
+
         const user = await Dbuser.findOne({ username: username });
 
-        var arr = [];
+        if (user.decks.length > 0) {
+            const arr = user.decks;
+            console.log("ARR", arr);
+            const decks = await Deck.find({ _id: { $in: arr } });
+            console.log("Decks:", decks);
 
-        user.decks.forEach((element)=>{
-            arr.push(element);
-        });
+            decks ? res.status(200).json({ decks: decks }) : res.status(500).json({ message: "Nope" });
 
-        const decks = await Deck.find({id: { $in: arr } } );
-
-        if (user) {
-            res.status(200).json({decks: decks});
-        }else{
-            res.status(500).json({message: "Nope"});
+        } else {
+            res.status(418).json({ message: "no decks!" });
         }
-
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Something wrong happened' })

@@ -1,11 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
 const dbuserSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     username: {
         type: String,
         required: true,
