@@ -1,12 +1,11 @@
-import Dbuser from "../../Model/Dbuser";
 import Deck from "../../Model/Deck";
-import connectDB from "../lib/connectDB";
+import mongoose from "mongoose";    
 
 export default async function handler(req, res) {
     try {
         const id = req.body.id;
 
-        await connectDB();
+        await mongoose.connect(process.env.MONGO);
 
         const deck = await Deck.find({_id: id});
         

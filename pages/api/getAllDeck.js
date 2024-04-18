@@ -1,13 +1,13 @@
 import Dbuser from "../../Model/Dbuser";
 import Deck from "../../Model/Deck";
-import connectDB from "../lib/connectDB";
+import mongoose from "mongoose";    
 
 
 export default async function handler(req, res) {
     try {
         const username = req.body.username;
 
-        await connectDB();
+        await mongoose.connect(process.env.MONGO);
 
         const user = await Dbuser.findOne({ username: username });
 

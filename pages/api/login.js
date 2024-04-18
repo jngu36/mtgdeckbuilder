@@ -1,14 +1,14 @@
 import Dbuser from '../../Model/Dbuser';
 import jwt from 'jsonwebtoken';
-import connectDb from "../lib/connectDB";
 const bcrypt = require('bcryptjs');
+import mongoose from "mongoose";
 
 export default async function handler(req, res) {
     try {
         const username = req.body.user;
         const password = req.body.pwd;
 
-        await connectDb();
+        await mongoose.connect(process.env.MONGO);
         
         const user = await Dbuser.findOne({ username: username });
 

@@ -1,5 +1,5 @@
 import Deck from "../../Model/Deck";
-import connectDB from "../lib/connectDB";
+import mongoose from "mongoose";    
 
 export default async function handler(req, res) {
     try {
@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         const description = "Generic description of a deck";
         const date = new Date();
 
-        await connectDB()
+        await mongoose.connect(process.env.MONGO);
 
         console.log("attempting to creae");
 

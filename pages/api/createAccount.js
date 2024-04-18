@@ -1,6 +1,6 @@
 import Dbuser from "../../Model/Dbuser";
 const bcrypt = require('bcryptjs');
-import connectDB from "../lib/connectDB";
+import mongoose from "mongoose";    
 
 export default async function handler(req, res) {
     try {
@@ -8,7 +8,7 @@ export default async function handler(req, res) {
         const password = req.body.pwd;
         const email = req.body.email;
         
-        await connectDB();
+        await mongoose.connect(process.env.MONGO);
 
         const hash = await bcrypt.hash(password, 10);
         const user = await Dbuser.findOne({ username: username });
