@@ -16,18 +16,16 @@ const Home = () => {
   const [username, setUser] = useState("");
   const [decks, setDecks] = useState([]);
   const [message, setMessage] = useState("");
-  const [token, setToken] = useState(null);
 
   //router
   const router = useRouter();
 
   useEffect(() => {
-    const tok = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-    if (tok) {
-      setToken(tok);
-      setUser(jwt.decode(tok).user.username);
-      setMessage("Hello " + jwt.decode(tok).user.username);
+    if (token) {
+      setUser(jwt.decode(token).user.username);
+      setMessage("Hello " + jwt.decode(token).user.username);
     }
   }, []);
 
@@ -131,8 +129,8 @@ const Home = () => {
 
       <div className='container'>
         <div className='row'>
-          {decks.map((deck) => (
-            <DeckInfoCard name={deck.name} desc={deck.description} id={deck.id} />
+          {decks.map((deck, index) => (
+            <DeckInfoCard key={index} name={deck.name} desc={deck.description} id={deck.id} owner={username} />
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import Dbuser from "../../Model/dbuser";
+import Dbuser from "../../Model/Dbuser";
 import Deck from "../../Model/Deck";
 import connectDB from "../lib/connectDB";
 

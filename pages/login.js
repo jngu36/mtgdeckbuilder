@@ -6,7 +6,6 @@ export default function Login() {
     const [user, setUserName] = useState("");
     const [pwd, setPwd] = useState("");
     const [display, setDisplay] = useState(""); // for error message display
-    const router = useRouter();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
