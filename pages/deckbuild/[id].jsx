@@ -87,7 +87,9 @@ export default function Home() {
       })
 
       const data = await res.json();
-      toast(data.message);
+      if(res.ok){ 
+        toast(data.message);
+      }
 
     } catch (error) {
       console.log("error: ", error);
