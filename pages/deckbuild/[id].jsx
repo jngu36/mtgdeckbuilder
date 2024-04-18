@@ -86,10 +86,8 @@ export default function Home() {
         body: JSON.stringify({ id: id, cards: list, name: deckName, description: desc }),
       })
 
-      const data = await res.json();
-      if(res.ok){ 
-        toast(data.message);
-      }
+      const data = res.json();
+      toast(data.message);
 
     } catch (error) {
       console.log("error: ", error);

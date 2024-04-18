@@ -15,9 +15,7 @@ export default async function handler(req, res) {
             await mongoose.connect(process.env.MONGO);
 
             const res = await Deck.findOneAndUpdate(find, change);
-
-            console.log(res);
-
+            
             res.status(200).json({ message: "Deck saved!" });
         } else {
             res.status(500).json({ message: "We have no idea what went wrong." });
