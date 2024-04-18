@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 export default function Login() {
@@ -7,6 +7,14 @@ export default function Login() {
     const [pwd, setPwd] = useState("");
     const [display, setDisplay] = useState(""); // for error message display
     const router = useRouter();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            router.push("/");
+        }
+    }, []);
 
     const submitForm = async (e) => {
         e.preventDefault(); // prevent the browser from automatically submitting the form
@@ -20,8 +28,8 @@ export default function Login() {
         const data = await res.json();
 
         if (res.ok) {
-            localStorage.setItem('token', data.token); // Store token in local storage
-            router.push('/');
+            localStorage.setItem('token', data.token); // Store token in local storage  
+            router.reload();
         } else {
             setDisplay(data.error);
         }
@@ -48,7 +56,7 @@ export default function Login() {
                 textAlign: 'center' // Center the content horizontally
             }}>
                 <form onSubmit={submitForm}>
-                <h1>Log In!</h1>
+                    <h1>Log In!</h1>
                     <div className="mb-3">
                         <label htmlFor="user" className="form-label">User</label>
                         <input id="user" className="form-control" value={user} onChange={(e) => setUserName(e.target.value)} />
@@ -59,7 +67,7 @@ export default function Login() {
                     </div>
                     <button type="submit" className="btn btn-primary">Login</button>
                 </form>
-                <a href="signup" style={{color: '#eedcb3'}}>Sign Up</a>
+                <a href="signup" style={{ color: '#eedcb3' }}>Sign Up</a>
                 <div>{display}</div>
             </div>
         </div>

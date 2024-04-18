@@ -4,7 +4,7 @@ import Link from 'next/link';
 import jwt from 'jsonwebtoken';
 
 export default function Navbar() {
-    const [login_text, setLoginText] = useState("Login");
+    const [login_text, setLoginText] = useState("");
     const [button_class, setButtonClass] = useState("");
     const [logged, setLoggedIn] = useState(false);
     const [message, setMessage] = useState("");
@@ -25,8 +25,7 @@ export default function Navbar() {
         e.preventDefault(); // Prevent form submission
         if (localStorage.getItem('token')) {
             localStorage.removeItem('token');
-            setLoginText("Login");
-            router.push('/');
+            router.reload();
         } else {
             router.push('/login');
         }
