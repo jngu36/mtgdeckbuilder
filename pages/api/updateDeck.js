@@ -2,17 +2,20 @@ import Deck from "../../Model/Deck";
 
 export default async function handler(req, res) {
     try {
-        const cards = req.body.list;
+        const cards = req.body.cards;
         const id = req.body.id;
-        const name = req.body.deckName;
-        const description = req.body.desc ? req.body.description : "This is a deck. There are many like it but this one is mine.";
+        const name = req.body.name;
+        const description = req.body.description ? req.body.description : "This is a deck. There are many like it but this one is mine.";
 
         if (cards && id && name) {
             const change = { $set: {cards: cards, name: name, description: description} };
             const find = { _id: id };
 
             await mongoose.connect(process.env.MONGO);
-            await Deck.findOneAndUpdate(find, change);
+
+            const res = await Deck.findOneAndUpdate(find, change);
+
+            console.log(res);
 
             res.status(200).json({ message: "Deck saved!" });
         } else {
