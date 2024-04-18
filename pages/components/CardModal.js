@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 const CardModal = ({ isOpen, closeModal, card }) => {
   if (!isOpen || !card) {
