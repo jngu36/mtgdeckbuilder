@@ -25,7 +25,10 @@ const Home = () => {
 
     if (token) {
       setUser(jwt.decode(token).user.username);
-      setMessage(`Welcome ${jwt.decode(token).user.username}, to our deck building site`);
+      setMessage(`Welcome ${jwt.decode(token).user.username}, to Abdulmuhsin & John's deck building site`);
+    }else{
+      setMessage(`Welcome to Abdulmuhsin & John's deck building site`);
+
     }
   }, []);
 
@@ -108,7 +111,7 @@ const Home = () => {
   }
 
   return (
-    <div style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif', padding: '20px', backgroundImage: 'url(https://i.pinimg.com/originals/3a/4e/88/3a4e882d1727232c5fece07bd59056bf.jpg)', backgroundSize: 'cover' }}>
+    <div style={{ textAlign: 'center', fontFamily: 'Papyrus', backgroundImage: 'url(https://i.pinimg.com/originals/3a/4e/88/3a4e882d1727232c5fece07bd59056bf.jpg)', backgroundSize: 'cover' }}>
       <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)', color: '#eedcb3' }}>
         <h1>{message}</h1>
         <p>

@@ -45,9 +45,14 @@ export default function Navbar() {
                                 Logout
                             </button>
                         ) : (
-                            <Link href="/login">
-                                <button className="btn btn-primary" style={{ backgroundColor: '#eedcb3', color: '#941221' }}>Login</button>
-                            </Link>
+                            <>
+                                <Link href="/signup">
+                                    <button className="btn btn-secondary me-2" style={{ backgroundColor: '#eedcb3', color: '#941221' }}>Sign Up</button>
+                                </Link>
+                                <Link href="/login">
+                                    <button className="btn btn-primary" style={{ backgroundColor: '#eedcb3', color: '#941221' }}>Login</button>
+                                </Link>
+                            </>
                         )}
                     </div>
                 </div>

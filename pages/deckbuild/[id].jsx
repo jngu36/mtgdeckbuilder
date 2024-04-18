@@ -96,7 +96,7 @@ export default function Home() {
   const handleSearch = async () => {
     try {
       setSearchResults([]);
-      setSearchStatus('Loading...');
+      setSearchStatus('No Match Found');
       const offset = (currentPage - 1) * pageSize;
       let query = `q=${searchQuery}&format=json&include_extras=false&include_multilingual=false&order=name&page=${currentPage}&unique=cards`;
 
