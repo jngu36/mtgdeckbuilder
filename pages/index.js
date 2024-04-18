@@ -40,7 +40,9 @@ const Home = () => {
         body: JSON.stringify({ username: name }),
       }).then((res)=>res.json())
       .then((data)=>{
-        setDecks(data.decks);
+        if(data.decks){ 
+          setDecks(data.decks);
+        }
       });
     } catch (error) {
       console.log("error: ", error);
