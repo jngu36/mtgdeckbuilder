@@ -41,9 +41,6 @@ export default function SearchBar({
           Search
         </button>
       </div>
-      <button onClick={handleAdvancedSearch} className="advanced-search-button" style={{ borderRadius: '10px', marginTop: '10px' }}>
-        {showAdvancedSearch ? 'Hide Advanced Search' : 'Show Advanced Search'}
-      </button>
       {showAdvancedSearch && (
         <div className="advanced-search-container" style={{ width: '70%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', borderRadius: '10px', padding: '10px', marginTop: '20px' }}>
           <div>
