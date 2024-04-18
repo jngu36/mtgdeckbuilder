@@ -188,13 +188,26 @@ export default function Home() {
                 list ?
                   list.map((card, index) => (
                     <div key={index} className='row'>
-                      <div className='col' style={{ textAlign: "left" }}>
-                        <p onMouseEnter={() => setImg(card.img_normal)} onMouseLeave={() => setImg("")}>{card.name}</p>
-                      </div>
-                      <div className='col-md-auto'>
-                        <button onClick={() => pop_from_list(index)}>-</button>
-                      </div>
-                    </div>
+  <div className='col' style={{ textAlign: "left" }}>
+    <p 
+      style={{ margin: '10px', color: '#941221' }} // Set default color to black
+      onMouseEnter={() => setImg(card.img_normal)} 
+      onMouseLeave={() => setImg("")}
+    >
+      <span 
+        style={{ color: 'inherit' }} // Inherit color from parent element
+        onMouseEnter={(e) => e.target.style.color = 'blue'} // Change color to pink on hover
+        onMouseLeave={(e) => e.target.style.color = 'inherit'} // Reset color on mouse leave
+      >
+        {card.name}
+      </span>
+    </p>
+  </div>
+  <div className='col-md-auto'>
+    <button onClick={() => pop_from_list(index)}>-</button>
+  </div>
+</div>
+
                   )) : <p>Empty!</p>
               }
             </div>
