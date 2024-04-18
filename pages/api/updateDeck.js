@@ -2,10 +2,10 @@ import Deck from "../../Model/Deck";
 
 export default async function handler(req, res) {
     try {
-        const cards = req.body.cards;
+        const cards = req.body.list;
         const id = req.body.id;
-        const name = req.body.name;
-        const description = req.body.description ? req.body.description : "This is a deck. There are many like it but this one is mine.";
+        const name = req.body.deckName;
+        const description = req.body.desc ? req.body.description : "This is a deck. There are many like it but this one is mine.";
 
         if (cards && id && name) {
             const change = { $set: {cards: cards, name: name, description: description} };
