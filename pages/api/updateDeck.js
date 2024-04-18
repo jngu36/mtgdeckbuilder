@@ -1,4 +1,5 @@
 import Deck from "../../Model/Deck";
+import mongoose from "mongoose";
 
 export default async function handler(req, res) {
     try {
