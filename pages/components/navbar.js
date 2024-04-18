@@ -4,31 +4,24 @@ import Link from 'next/link';
 import jwt from 'jsonwebtoken';
 
 export default function Navbar() {
-    const [login_text, setLoginText] = useState("");
-    const [button_class, setButtonClass] = useState("");
-    const [logged, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
     const [message, setMessage] = useState("");
     const router = useRouter();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            setMessage("Hello, " + jwt.decode(token).user.username);
+            const decodedToken = jwt.decode(token);
+            if (decodedToken) {
+                setMessage(`Hello, ${decodedToken.user.username}`);
+                setLoggedIn(true);
+            }
         }
-        setLoggedIn(true);
-        setButtonClass("btn " + (token ? "btn-danger" : "btn-primary"));
-        token ? setLoginText("Logout") : setLoginText("Login");
-        
     }, []);
 
-    const log_form = async (e) => {
-        e.preventDefault(); // Prevent form submission
-        if (localStorage.getItem('token')) {
-            localStorage.removeItem('token');
-            router.reload();
-        } else {
-            router.push('/login');
-        }
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        router.reload();
     };
 
     return (
@@ -41,14 +34,22 @@ export default function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 
-                    {!logged ? <Link href="/signup">
-                        <button className="btn btn-secondary" style={{ marginRight: '10px', backgroundColor: '#eedcb3', color: '#941221' }}>Create Account</button>
-                    </Link> : <p>{message}</p>
-                    }
-
-                    <form onSubmit={log_form}>
-                        <button className={button_class} type="submit" style={{ marginLeft: '10px', backgroundColor: '#eedcb3', color: '#941221' }}>{login_text}</button>
-                    </form>
+                    <div style={{ display: 'flex', alignItems: 'center' }}> {/* Flex container for Hello, User and Login Button */}
+                        <div style={{ color: '#eedcb3', marginRight: '10px' }}>{message}</div> {/* Flex item for Hello, User */}
+                        {loggedIn ? (
+                            <button
+                                className="btn btn-primary"
+                                onClick={handleLogout}
+                                style={{ backgroundColor: '#eedcb3', color: '#941221' }}
+                            >
+                                Logout
+                            </button>
+                        ) : (
+                            <Link href="/login">
+                                <button className="btn btn-primary" style={{ backgroundColor: '#eedcb3', color: '#941221' }}>Login</button>
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
         </nav>

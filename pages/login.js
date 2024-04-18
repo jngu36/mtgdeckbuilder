@@ -1,11 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'; // Import the useRouter hook
 
 export default function Login() {
     const [user, setUserName] = useState("");
     const [pwd, setPwd] = useState("");
     const [display, setDisplay] = useState(""); // for error message display
+    const router = useRouter(); // Define the useRouter hook
 
     useEffect(() => {
         const token = localStorage.getItem('token');
