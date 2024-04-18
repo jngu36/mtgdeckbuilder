@@ -11,7 +11,7 @@ export default async function handler(req, res) {
             const list = { $set: {cards: cards, name: name, description: description} };
             const condition = { _id: id };
 
-            await connectDB();
+            await mongoose.connect(process.env.MONGO);
             await Deck.findOneAndUpdate(condition, list);
 
             res.status(200).json({ message: "Deck saved!" });
