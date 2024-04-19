@@ -159,10 +159,7 @@ export default function Home() {
       <h1>Hello {name}! Welcome To The Card Search</h1>
       <h2>Use the search bar to search for any MTG Cards!</h2>
 
-      <hr />
-      <hr />
-
-      <div className="container" style={{ marginTop: "150px" }}>
+      <div className="container" style={{ marginTop: "75px" }}>
 
         {/* LEFT SIDE IMAGE PREVIEW */}
         <div className='row'>
@@ -182,6 +179,8 @@ export default function Home() {
             <input id="deck_desc" style={{ color: "blue" }} value={desc} onChange={(e) => { setDesc(e.target.value) }} />
 
             <br />
+            
+            <button onClick={saveDeck} className="btn btn-primary" style={{marginTop: "20px", marginBottom: "20px"}}>save</button>
             <div style={{ border: "2px solid red" }}>
               {
                 list ?
@@ -210,7 +209,6 @@ export default function Home() {
                   )) : <p>Empty!</p>
               }
             </div>
-            <button onClick={saveDeck} className="btn btn-primary">save</button>
             <Toaster />
 
           </div>
