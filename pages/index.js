@@ -107,7 +107,7 @@ const Home = () => {
   }
 
   return (
-    <div style={{ textAlign: 'center' ,fontFamily: 'Papyrus', backgroundImage: 'url(https://i.pinimg.com/originals/3a/4e/88/3a4e882d1727232c5fece07bd59056bf.jpg)', backgroundSize: 'cover' }}>
+    <div style={{ textAlign: 'center', height: "100vh",fontFamily: 'Papyrus', backgroundImage: 'url(https://i.pinimg.com/originals/3a/4e/88/3a4e882d1727232c5fece07bd59056bf.jpg)', backgroundSize: 'cover' }}>
       <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)', color: '#eedcb3' }}>
         <h1>{message}</h1>
         <p>
@@ -138,7 +138,8 @@ const Home = () => {
       <br></br>
       <br></br>
 
-      <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: '20px', marginTop: '40px' }}>
+      <CardModal isOpen={modalOpen} closeModal={closeModal} card={selectedCard} />
+      <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', position: "absolute", left: "0", right: "0", bottom: "0" }}>
         <h2 style={{ color: '#eedcb3', marginBottom: '20px' }}>Check out these Cards and let them inspire YOU!!</h2>
         <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
           {randomLegendaryCards.map((card, index) => (
@@ -150,7 +151,6 @@ const Home = () => {
           ))}
         </div>
       </div>
-      <CardModal isOpen={modalOpen} closeModal={closeModal} card={selectedCard} />
     </div>
   );
 };
